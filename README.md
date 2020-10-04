@@ -28,7 +28,7 @@
 - Android Lifecycle
 - Button
 - Android Intents and navigation
-- Passing parameters with
+- Passing parameters with Bundle and Intent
 
 ## Team
 
