@@ -63,15 +63,15 @@ class MainActivity : AppCompatActivity() {
             if (!country.isNullOrBlank()) {
                 if (registerState.usernameError != null) {
                     mainViewBinding.userName.error = getString(registerState.usernameError)
-                    Toast.makeText(this,  getString(registerState.usernameError), Toast.LENGTH_LONG)
+                    Toast.makeText(this,  getString(registerState.usernameError), Toast.LENGTH_SHORT).show()
                 }
                 if (registerState.passwordError != null) {
                     mainViewBinding.password.error = getString(registerState.passwordError)
-                    Toast.makeText(this, getString(registerState.passwordError), Toast.LENGTH_LONG)
+                    Toast.makeText(this, getString(registerState.passwordError), Toast.LENGTH_SHORT).show()
                 }
                 if (registerState.passwordError != null) {
                     mainViewBinding.confrimPassword.error = getString(registerState.passwordError)
-                    Toast.makeText(this, getString(registerState.passwordError), Toast.LENGTH_LONG)
+                    Toast.makeText(this, getString(registerState.passwordError), Toast.LENGTH_SHORT).show()
 
                 }
 
@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
 
             } else {
                 mainViewBinding.confrimPassword.error = getString(R.string.country_must_have_value)
-                Toast.makeText(this, R.string.country_must_have_value, Toast.LENGTH_LONG)
+                Toast.makeText(this, R.string.country_must_have_value, Toast.LENGTH_SHORT).show()
             }
 
 
@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity() {
 
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(this, R.string.country_must_have_value, Toast.LENGTH_SHORT)
+                Toast.makeText(this, R.string.country_must_have_value, Toast.LENGTH_SHORT).show()
             }
         }
     }

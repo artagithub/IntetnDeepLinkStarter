@@ -34,14 +34,14 @@ class LocationActivity : AppCompatActivity() {
         countrySpinner.adapter =  arrayAdapter
         countrySpinner.onItemSelectedListener = object : OnItemSelectedListener{
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                Toast.makeText(applicationContext, R.string.country_must_have_value,Toast.LENGTH_SHORT)
+                Toast.makeText(applicationContext, R.string.country_must_have_value,Toast.LENGTH_SHORT).show()
             }
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 if (p0 != null) {
                     countryName = p0.selectedItem.toString()
                 }else{
-                    Toast.makeText(applicationContext, R.string.country_must_have_value,Toast.LENGTH_SHORT)
+                    Toast.makeText(applicationContext, R.string.country_must_have_value,Toast.LENGTH_SHORT).show()
                 }
             }
 
