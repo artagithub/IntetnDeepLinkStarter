@@ -43,6 +43,10 @@ class MainActivity : AppCompatActivity() {
             chooseCountry();
         }
 
+        register.setOnClickListener({
+            registerViewModel.register(mainViewBinding.userName.text.toString(),mainViewBinding.password.text.toString(),country)
+        })
+
         registerViewModel = ViewModelProviders.of(this, RegisterViewModelFactory())
             .get(RegisterViewModel::class.java)
 
@@ -50,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             val registerState = it ?: return@Observer
 
             // disable login button unless both username / password is valid
-            if (country != null) {
+            if (!country.isNullOrBlank()) {
                 register.isEnabled = registerState.isDataValid
             } else {
                 Toast.makeText(this,R.string.country_must_have_value,Toast.LENGTH_SHORT)
