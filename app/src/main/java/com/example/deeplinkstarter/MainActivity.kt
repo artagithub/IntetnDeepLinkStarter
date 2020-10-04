@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private lateinit var registerViewModel: RegisterViewModel
-    private lateinit var country: String
+    private var country: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,11 +45,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         register.setOnClickListener({
-            registerViewModel.register(
+            registerViewModel.registerDataChanged(
                 mainViewBinding.userName.text.toString(),
                 mainViewBinding.password.text.toString(),
-                country
+                mainViewBinding.confrimPassword.text.toString()
             )
+
         })
 
         registerViewModel = ViewModelProviders.of(this, RegisterViewModelFactory())
@@ -60,21 +61,37 @@ class MainActivity : AppCompatActivity() {
 
             // disable login button unless both username / password is valid
             if (!country.isNullOrBlank()) {
-                register.isEnabled = registerState.isDataValid
+                if (registerState.usernameError != null) {
+                    mainViewBinding.userName.error = getString(registerState.usernameError)
+                    Toast.makeText(this,  getString(registerState.usernameError), Toast.LENGTH_LONG)
+                }
+                if (registerState.passwordError != null) {
+                    mainViewBinding.password.error = getString(registerState.passwordError)
+                    Toast.makeText(this, getString(registerState.passwordError), Toast.LENGTH_LONG)
+                }
+                if (registerState.passwordError != null) {
+                    mainViewBinding.confrimPassword.error = getString(registerState.passwordError)
+                    Toast.makeText(this, getString(registerState.passwordError), Toast.LENGTH_LONG)
+
+                }
+
+                if(registerState.isDataValid){
+                    registerViewModel.register(
+                        mainViewBinding.userName.text.toString(),
+                        mainViewBinding.password.text.toString(),
+                        country
+                    )
+                }
+
             } else {
-                Toast.makeText(this, R.string.country_must_have_value, Toast.LENGTH_SHORT)
+                mainViewBinding.confrimPassword.error = getString(R.string.country_must_have_value)
+                Toast.makeText(this, R.string.country_must_have_value, Toast.LENGTH_LONG)
             }
 
 
-            if (registerState.usernameError != null) {
-                mainViewBinding.userName.error = getString(registerState.usernameError)
-            }
-            if (registerState.passwordError != null) {
-                mainViewBinding.userName.error = getString(registerState.passwordError)
-            }
-            if (registerState.countryError != null) {
-                mainViewBinding.confrimPassword.error = getString(registerState.countryError)
-            }
+
+
+
         })
 
         registerViewModel.registerResult.observe(this@MainActivity, Observer {
@@ -92,38 +109,6 @@ class MainActivity : AppCompatActivity() {
             //Complete and destroy login activity once successful
             finish()
         })
-
-        mainViewBinding.userName.doAfterTextChanged{
-            registerViewModel.registerDataChanged(
-                mainViewBinding.userName.text.toString(),
-                mainViewBinding.password.text.toString(),
-                mainViewBinding.confrimPassword.toString()
-            )
-        }
-        mainViewBinding.password.doAfterTextChanged {
-
-                registerViewModel.registerDataChanged(
-                    mainViewBinding.userName.text.toString(),
-                    mainViewBinding.password.text.toString(),
-                    mainViewBinding.confrimPassword.text.toString()
-                )
-
-        }
-
-
-
-
-        mainViewBinding.confrimPassword.doAfterTextChanged {
-
-
-            registerViewModel.registerDataChanged(
-                mainViewBinding.userName.text.toString(),
-                mainViewBinding.password.text.toString(),
-                mainViewBinding.confrimPassword.text.toString()
-            )
-
-        }
-
 
         val view = mainViewBinding.root
         setContentView(view)

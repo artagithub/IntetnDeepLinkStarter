@@ -46,6 +46,6 @@ class RegisterViewModel(private val registerRepository: RegisterRepository) : Vi
     }
 
     private fun isPasswordValid(password: String,confirmation_password: String): Boolean {
-        return password.length > 6 && confirmation_password.length > 6 && password.equals(confirmation_password)
+        return password.length >= 6 && confirmation_password.length >= 6 && password.equals(confirmation_password)
     }
 }

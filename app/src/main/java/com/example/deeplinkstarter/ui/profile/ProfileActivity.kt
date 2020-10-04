@@ -20,7 +20,7 @@ class ProfileActivity : AppCompatActivity() {
         val profileRoot = profileBinding.root
         val username = intent.getStringExtra(AppParametersEnum.USER_NAME.value)
         Glide.with(this)
-            .load("https://github.com/${username}.png")
+            .load("https://github.com/${username}.png?size=40")
             .fitCenter()
             .into(profileBinding.imageView2);
         profileBinding.internetExplorer.setOnClickListener({
