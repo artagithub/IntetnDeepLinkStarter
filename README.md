@@ -34,5 +34,5 @@
 
 
 | <a href="" target="_blank">**Arta Salahesh**</a> |
-|:---:|:---:|
+|:---:|
 | [![IscVas](https://octodex.github.com/images/Terracottocat_Single.png)]() |
