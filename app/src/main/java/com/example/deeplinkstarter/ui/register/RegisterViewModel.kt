@@ -33,6 +33,8 @@ class RegisterViewModel(private val registerRepository: RegisterRepository) : Vi
             _loginForm.value = RegisterFormState(usernameError = R.string.invalid_username)
         } else if (!isPasswordValid(password,confirmation_password)) {
             _loginForm.value = RegisterFormState(passwordError = R.string.invalid_password)
+        } else {
+            _loginForm.value = RegisterFormState(isDataValid = true)
         }
     }
 

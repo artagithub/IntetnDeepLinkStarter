@@ -97,6 +97,7 @@
                 android:layout_marginBottom="16dp"
                 android:hint="@string/password"
                 android:textAlignment="center"
+                android:inputType="textPassword"
                 android:textSize="16dp" />
 
             <TextView
@@ -116,6 +117,7 @@
                 android:layout_marginBottom="16dp"
                 android:hint="@string/password"
                 android:textAlignment="center"
+                android:inputType="textPassword"
                 android:textSize="16dp" />
 
             <LinearLayout

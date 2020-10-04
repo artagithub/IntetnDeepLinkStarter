@@ -9,6 +9,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.deeplinkstarter.databinding.ActivityMainBinding
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private lateinit var registerViewModel: RegisterViewModel
-    private lateinit var country:String
+    private lateinit var country: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +45,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         register.setOnClickListener({
-            registerViewModel.register(mainViewBinding.userName.text.toString(),mainViewBinding.password.text.toString(),country)
+            registerViewModel.register(
+                mainViewBinding.userName.text.toString(),
+                mainViewBinding.password.text.toString(),
+                country
+            )
         })
 
         registerViewModel = ViewModelProviders.of(this, RegisterViewModelFactory())
@@ -57,18 +62,18 @@ class MainActivity : AppCompatActivity() {
             if (!country.isNullOrBlank()) {
                 register.isEnabled = registerState.isDataValid
             } else {
-                Toast.makeText(this,R.string.country_must_have_value,Toast.LENGTH_SHORT)
+                Toast.makeText(this, R.string.country_must_have_value, Toast.LENGTH_SHORT)
             }
 
 
             if (registerState.usernameError != null) {
-                username.error = getString(registerState.usernameError)
+                mainViewBinding.userName.error = getString(registerState.usernameError)
             }
             if (registerState.passwordError != null) {
-                password.error = getString(registerState.passwordError)
+                mainViewBinding.userName.error = getString(registerState.passwordError)
             }
-            if(registerState.countryError !=null){
-                confim_password.error = getString(registerState.countryError)
+            if (registerState.countryError != null) {
+                mainViewBinding.confrimPassword.error = getString(registerState.countryError)
             }
         })
 
@@ -88,73 +93,72 @@ class MainActivity : AppCompatActivity() {
             finish()
         })
 
-        username.doAfterTextChanged {
+        mainViewBinding.userName.doAfterTextChanged{
             registerViewModel.registerDataChanged(
                 mainViewBinding.userName.text.toString(),
                 mainViewBinding.password.text.toString(),
                 mainViewBinding.confrimPassword.toString()
             )
         }
+        mainViewBinding.password.doAfterTextChanged {
 
-        password.apply {
-            doAfterTextChanged {
                 registerViewModel.registerDataChanged(
-                    username.text.toString(),
-                    password.text.toString(),
-                    confim_password.text.toString()
+                    mainViewBinding.userName.text.toString(),
+                    mainViewBinding.password.text.toString(),
+                    mainViewBinding.confrimPassword.text.toString()
                 )
-            }
 
-
-
-            val view = mainViewBinding.root
-            setContentView(view)
         }
 
-        confim_password.apply {
-            doAfterTextChanged {
-                registerViewModel.registerDataChanged(
-                    username.text.toString(),
-                    password.text.toString(),
-                    confim_password.text.toString()
-                )
-            }
 
 
 
-            val view = mainViewBinding.root
-            setContentView(view)
+        mainViewBinding.confrimPassword.doAfterTextChanged {
+
+
+            registerViewModel.registerDataChanged(
+                mainViewBinding.userName.text.toString(),
+                mainViewBinding.password.text.toString(),
+                mainViewBinding.confrimPassword.text.toString()
+            )
+
         }
+
+
+        val view = mainViewBinding.root
+        setContentView(view)
+
 
     }
 
 
-        private fun showLoginFailed(@StringRes errorString: Int) {
-            Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
-        }
+    private fun showLoginFailed(@StringRes errorString: Int) {
+        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+    }
 
-    private fun goToProfile(registeredUser: RegisteredUserView?){
-        val profileIntent = Intent(this,ProfileActivity::class.java)
+    private fun goToProfile(registeredUser: RegisteredUserView?) {
+        val profileIntent = Intent(this, ProfileActivity::class.java)
         val parameters = Bundle()
-        parameters.putString(AppParametersEnum.USER_NAME.value,registeredUser?.displayName)
+        parameters.putString(AppParametersEnum.USER_NAME.value, registeredUser?.displayName)
         profileIntent.putExtras(parameters)
         startActivity(profileIntent)
         finish()
     }
 
-    private fun chooseCountry(){
-        val chooseCountryIntent = Intent(this,LocationActivity::class.java)
-        startActivityForResult(chooseCountryIntent,2)
+    private fun chooseCountry() {
+        val chooseCountryIntent = Intent(this, LocationActivity::class.java)
+        startActivityForResult(chooseCountryIntent, 2)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode==2){
-            if(resultCode== Activity.RESULT_OK){
+        if (requestCode == 2) {
+            if (resultCode == Activity.RESULT_OK) {
                 country = data?.getStringExtra(AppParametersEnum.COUNTRY.value).toString()
+
             }
-            if(resultCode == Activity.RESULT_CANCELED){
-                Toast.makeText(this,R.string.country_must_have_value,Toast.LENGTH_SHORT)
+            if (resultCode == Activity.RESULT_CANCELED) {
+                Toast.makeText(this, R.string.country_must_have_value, Toast.LENGTH_SHORT)
             }
         }
     }
