@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.deeplinkstarter.R
 import com.example.deeplinkstarter.databinding.ActivityProfileBinding
 import com.example.deeplinkstarter.enum.AppParametersEnum
@@ -22,6 +23,7 @@ class ProfileActivity : AppCompatActivity() {
         Glide.with(this)
             .load("https://github.com/${username}.png?size=40")
             .fitCenter()
+            .apply( RequestOptions().override(48, 48))
             .into(profileBinding.imageView2);
         profileBinding.internetExplorer.setOnClickListener({
             val webpage: Uri = Uri.parse(url)
