@@ -23,7 +23,7 @@ class ProfileActivity : AppCompatActivity() {
         Glide.with(this)
             .load("https://github.com/${username}.png?size=40")
             .fitCenter()
-            .apply( RequestOptions().override(48, 48))
+            .apply( RequestOptions().override(200, 200))
             .into(profileBinding.imageView2);
         profileBinding.internetExplorer.setOnClickListener({
             val webpage: Uri = Uri.parse(url)
